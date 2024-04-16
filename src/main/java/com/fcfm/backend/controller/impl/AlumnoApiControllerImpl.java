@@ -2,33 +2,60 @@ package com.fcfm.backend.controller.impl;
 
 import com.fcfm.backend.controller.AlumnoApiController;
 import com.fcfm.backend.model.Alumno;
+import com.fcfm.backend.service.AlumnoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class AlumnoApiControllerImpl implements AlumnoApiController {
-    @Override
-    public ResponseEntity<String> getName() {
-        return ResponseEntity.ok().body("Misael Lomas");
-    }
 
-    @Override
-    public ResponseEntity<String> getName(@PathVariable String nombreAlumno) {
-        return ResponseEntity.ok().body(nombreAlumno);
+    private AlumnoService alumnoService;
+
+    @Autowired
+    AlumnoApiControllerImpl(AlumnoService alumnoService) {
+        this.alumnoService = alumnoService;
     }
 
     @Override
     public ResponseEntity<Alumno> createAlumno(@RequestBody Alumno alumnoNuevo) {
-        return ResponseEntity.ok().body(alumnoDummy());
+        alumnoService.createAlumno(alumnoNuevo);
+        return ResponseEntity.ok().body(alumnoNuevo);
     }
 
-    private Alumno alumnoDummy() {
-        Alumno alumnoDummy = new Alumno();
-
-        return alumnoDummy;
+    @Override
+    public ResponseEntity<List<Alumno>> getAlumnoList() {
+        return ResponseEntity.ok().body(alumnoService.getAlumnoList());
     }
+
+    @Override
+    public ResponseEntity<Alumno> getAlumnoById(@PathVariable int idAlumno) {
+        return ResponseEntity.ok().body(alumnoService.getAlumnoById(idAlumno));
+    }
+
+    @Override
+    public ResponseEntity<Alumno> updateAlumnoById(@PathVariable int idAlumno, @RequestBody Alumno alumnoActualizado) {
+        alumnoService.updateAlumnoById(idAlumno, alumnoActualizado);
+        return ResponseEntity.ok().body(alumnoService.getAlumnoById(idAlumno));
+    }
+
+    @Override
+    public ResponseEntity<String> deleteAlumnoById(@PathVariable int idAlumno) {
+
+        if (!alumnoService.existsById(idAlumno)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        alumnoService.deleteAlumnoById(idAlumno);
+        return ResponseEntity.ok().body("Alumno con id " + idAlumno + " ha sido eliminado correctamente.");
+    }
+
+
+
 
 }

@@ -2,10 +2,6 @@ package com.fcfm.backend.model;
 
 public class Alumno {
 
-    String nombre;
-    String apellidoPat;
-    String apellidoMat;
-    Integer edad;
     public String getNombre() {
         return nombre;
     }
@@ -30,12 +26,37 @@ public class Alumno {
         this.apellidoMat = apellidoMat;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public String getFechaNac() {
+        return fechaNac;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    private String nombre;
+    private String apellidoPat;
+    private String apellidoMat;
+    private String fechaNac;
+    private String telefono;
+    private String email;
+
 
 }
