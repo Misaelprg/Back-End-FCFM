@@ -1,17 +1,51 @@
-package com.fcfm.backend.model;
+package com.fcfm.backend.repository.entity;
 
+import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
 
+@Entity
 public class Alumno {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "alumnoId", nullable = false)
+    private Long alumnoId;
 
     private String primerNombre;
+
     private String segundoNombre;
+
     private String apellidoPat;
+
     private String apellidoMat;
-    private String fechaNac;
+
+    private Date fechaNac;
+
     private String curp;
+
     private String email;
+
+    public Alumno(String primerNombre, String segundoNombre, String apellidoPat, String apellidoMat, Date fechaNac, String curp, String email) {
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.apellidoPat = apellidoPat;
+        this.apellidoMat = apellidoMat;
+        this.fechaNac = fechaNac;
+        this.curp = curp;
+        this.email = email;
+    }
+
+    public Alumno() {
+
+    }
+
+    public Long getAlumnoId() {
+        return alumnoId;
+    }
+
+    public void setAlumnoId(Long alumnoId) {
+        this.alumnoId = alumnoId;
+    }
 
     public String getPrimerNombre() {
         return primerNombre;
@@ -45,11 +79,11 @@ public class Alumno {
         this.apellidoMat = apellidoMat;
     }
 
-    public String getFechaNac() {
+    public Date getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(String fechaNac) {
+    public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
 
@@ -68,4 +102,5 @@ public class Alumno {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
