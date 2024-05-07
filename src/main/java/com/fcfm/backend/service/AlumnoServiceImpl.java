@@ -21,9 +21,7 @@ public class AlumnoServiceImpl implements AlumnoService {
     AlumnoServiceImpl(AlumnoRepository alumnoRepository) { this.alumnoRepository = alumnoRepository; }
 
     public void createAlumno(Alumno newAlumno) {
-
-
-        alumnoRepository.insertar(alumno);
+        alumnoRepository.insertar(newAlumno);
     }
 
     public com.fcfm.backend.model.Alumno getAlumnoById(int id) {
@@ -31,4 +29,15 @@ public class AlumnoServiceImpl implements AlumnoService {
         return AlumnoMapper.alumnoEntityToAlumnoModel(alumnoEntity);
     }
 
+    public List<Alumno> getAlumnoList() {
+        return alumnoRepository.getAlumnoList();
+    }
+
+    public com.fcfm.backend.model.Alumno updateAlumno(Alumno alumno) {
+        return  alumnoRepository.updateAlumnoById(alumno);
+    }
+
+    public String deleteAlumnoById(int id) {
+        return alumnoRepository.deleteAlumnoById(Long.valueOf(id));
+    }
 }

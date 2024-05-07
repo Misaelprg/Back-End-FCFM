@@ -1,15 +1,15 @@
 package com.fcfm.backend.model;
 
-
 import java.util.Date;
 
 public class Alumno {
+
 
     private String primerNombre;
     private String segundoNombre;
     private String apellidoPat;
     private String apellidoMat;
-    private String fechaNac;
+    private Date fechaNac;
     private String curp;
     private String email;
 
@@ -45,11 +45,11 @@ public class Alumno {
         this.apellidoMat = apellidoMat;
     }
 
-    public String getFechaNac() {
+    public Date getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(String fechaNac) {
+    public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
 

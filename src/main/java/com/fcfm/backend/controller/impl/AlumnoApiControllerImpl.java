@@ -3,16 +3,27 @@ package com.fcfm.backend.controller.impl;
 import com.fcfm.backend.controller.AlumnoApiController;
 import com.fcfm.backend.repository.entity.Alumno;
 import com.fcfm.backend.service.AlumnoService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 
 @RestController
 public class AlumnoApiControllerImpl implements AlumnoApiController {
 
     private AlumnoService alumnoService;
+
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
 
     @Autowired
     AlumnoApiControllerImpl(AlumnoService alumnoService) {
@@ -20,39 +31,42 @@ public class AlumnoApiControllerImpl implements AlumnoApiController {
     }
 
     @Override
-    public ResponseEntity<Alumno> createAlumno(@RequestBody Alumno alumnoNuevo) {
-        alumnoService.createAlumno(alumnoNuevo);
-        return ResponseEntity.ok().body(alumnoNuevo);
+    public ResponseEntity<String> createAlumno(@RequestBody Alumno alumnoNuevo, BindingResult result) {
+        Set<ConstraintViolation<Alumno>> violations = validator.validate(alumnoNuevo);
+
+        if(!violations.isEmpty()) {
+            String errores = new String();
+
+            for (ConstraintViolation<Alumno> violation : violations) {
+                errores += violation.getMessage().toString() + "\n";
+            }
+            return ResponseEntity.ok().body(errores);
+            }
+        else {
+                alumnoService.createAlumno(alumnoNuevo);
+                return ResponseEntity.ok().body("Alumno creado éxitosamente.");
+            }
     }
 
-//    @Override
-//    public ResponseEntity<List<Alumno>> getAlumnoList() {
-//        return ResponseEntity.ok().body(alumnoService.getAlumnoList());
-//    }
+    @Override
+    public ResponseEntity<List<Alumno>> getAlumnoList() {
+        return ResponseEntity.ok().body(alumnoService.getAlumnoList());
+    }
 
     @Override
     public ResponseEntity<com.fcfm.backend.model.Alumno> getAlumnoById(@PathVariable int idAlumno) {
         return ResponseEntity.ok().body(alumnoService.getAlumnoById(idAlumno));
     }
 
-//    @Override
-//    public ResponseEntity<Alumno> updateAlumnoById(@PathVariable int idAlumno, @RequestBody Alumno alumnoActualizado) {
-//        alumnoService.updateAlumnoById(idAlumno, alumnoActualizado);
-//        return ResponseEntity.ok().body(alumnoService.getAlumnoById(idAlumno));
-//    }
-//
-//    @Override
-//    public ResponseEntity<String> deleteAlumnoById(@PathVariable int idAlumno) {
-//
-//        if (!alumnoService.existsById(idAlumno)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        alumnoService.deleteAlumnoById(idAlumno);
-//        return ResponseEntity.ok().body("Alumno con id " + idAlumno + " ha sido eliminado correctamente.");
-//    }
+    @Override
+    public ResponseEntity<?> updateAlumnoById(@RequestBody Alumno alumno) {
+            return ResponseEntity.ok().body(alumnoService.updateAlumno(alumno));
+    }
 
-
+    @Override
+    public ResponseEntity<String> deleteAlumnoById(@PathVariable int idAlumno) {
+        return ResponseEntity.ok().body(alumnoService.deleteAlumnoById(idAlumno));
+    }
 
 
 }
