@@ -13,6 +13,7 @@ public class Alumno {
     private String curp;
     private String email;
 
+
     public String getPrimerNombre() {
         return primerNombre;
     }

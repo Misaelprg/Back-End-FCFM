@@ -1,6 +1,8 @@
 package com.fcfm.backend.controller.impl;
 
 import com.fcfm.backend.controller.AlumnoApiController;
+import com.fcfm.backend.model.UserLogin;
+import com.fcfm.backend.response.LoginMessage;
 import com.fcfm.backend.repository.entity.Alumno;
 import com.fcfm.backend.service.AlumnoService;
 import jakarta.validation.ConstraintViolation;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -67,6 +68,14 @@ public class AlumnoApiControllerImpl implements AlumnoApiController {
     public ResponseEntity<String> deleteAlumnoById(@PathVariable int idAlumno) {
         return ResponseEntity.ok().body(alumnoService.deleteAlumnoById(idAlumno));
     }
+
+    @Override
+    public ResponseEntity<?> loginAlumno(@RequestBody UserLogin userLogin) {
+        LoginMessage message = alumnoService.loginAlumno(userLogin);
+        return ResponseEntity.ok().body(message);
+    }
+
+
 
 
 }

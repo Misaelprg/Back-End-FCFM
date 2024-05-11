@@ -41,4 +41,19 @@ public class AlumnoRepositoryImpl implements AlumnoRepository {
         }
 
     }
+
+    @Override
+    public Alumno getAlumnoByEmail(String email) {
+        TypedQuery<Alumno> query = em.createQuery("SELECT a FROM Alumno a WHERE a.email = :email", Alumno.class);
+        query.setParameter("email", email);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public Alumno getAlumnoByEmailAndPassword(String email, String password) {
+        TypedQuery<Alumno> query = em.createQuery("SELECT a FROM Alumno a WHERE a.email = :email AND a.password = :password", Alumno.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+        return query.getSingleResult();
+    }
 }

@@ -1,5 +1,6 @@
 package com.fcfm.backend.repository.entity;
 
+import ch.qos.logback.core.subst.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,7 +13,6 @@ public class Alumno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alumnoId", nullable = false)
-    @NotNull(message = "Porfavor, coloque el id del elemento a actualizar.")
     private Long alumnoId;
 
     @NotNull(message = "Porfavor, coloque su primer nombre.")
@@ -36,7 +36,11 @@ public class Alumno {
     @NotNull(message = "Porfavor, coloque su correo.")
     private String email;
 
-    public Alumno(String primerNombre, String segundoNombre, String apellidoPat, String apellidoMat, Date fechaNac, String curp, String email) {
+    @NotNull(message = "Porfavor, coloque su contraseña.")
+    private String password;
+
+
+    public Alumno(String primerNombre, String segundoNombre, String apellidoPat, String apellidoMat, Date fechaNac, String curp, String email, String password) {
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.apellidoPat = apellidoPat;
@@ -44,10 +48,19 @@ public class Alumno {
         this.fechaNac = fechaNac;
         this.curp = curp;
         this.email = email;
+        this.password =  password;
     }
 
     public Alumno() {
 
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getAlumnoId() {

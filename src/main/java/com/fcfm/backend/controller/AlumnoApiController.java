@@ -1,5 +1,6 @@
 package com.fcfm.backend.controller;
 
+import com.fcfm.backend.model.UserLogin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,7 @@ public interface AlumnoApiController {
     @DeleteMapping("/{idAlumno}")
     ResponseEntity<String> deleteAlumnoById(@PathVariable int idAlumno);
 
+    @PostMapping("/login")
+    ResponseEntity<?> loginAlumno(@RequestBody UserLogin userLogin);
 
 }
